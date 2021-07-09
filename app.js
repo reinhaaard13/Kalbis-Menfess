@@ -20,6 +20,10 @@ const bot = new TwitterBot({
   triggerWord: process.env.TRIGGER,
 });
 
+async function onComplete() {
+  console.log("my job is done!");
+}
+
 const job = new CronJob("0 */3 * * * *", doJob, onComplete, true);
 
 async function doJob() {
