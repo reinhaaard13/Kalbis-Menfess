@@ -170,18 +170,20 @@ class TwitterBot {
         const b64content = fs.readFileSync(filePath, { encoding: "base64" });
         this.T.post("media/upload", { media_data: b64content }, (err, data) => {
           if (!err) {
-            console.log("media has been uploaded!");
             resolve(data);
+            console.log("media has been uploaded!");
           } else {
+            fs.unlinkSync(filePath);
             reject(err);
           }
         });
       } else {
         this.T.postMediaChunked({ file_path: filePath }, (error, data) => {
           if (!error) {
-            console.log("media has been uploaded!");
             resolve(data);
+            console.log("media has been uploaded!");
           } else {
+            fs.unlinkSync(filePath);
             reject(error);
           }
         });
