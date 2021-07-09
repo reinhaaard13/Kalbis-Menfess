@@ -166,8 +166,8 @@ class TwitterBot {
   uploadMedia = (filePath, type) => {
     return new Promise((resolve, reject) => {
       console.log("media is uploading ........");
+      const b64content = fs.readFileSync(filePath, { encoding: "base64" });
       if (type == "photo") {
-        const b64content = fs.readFileSync(filePath, { encoding: "base64" });
         this.T.post("media/upload", { media_data: b64content }, (err, data) => {
           if (!err) {
             resolve(data);
@@ -205,7 +205,7 @@ class TwitterBot {
           payload.status = text.split(shortUrl)[0];
 
           let mediaUrl = "";
-          let type = attachment.media.type;
+          const type = attachment.media.type;
           if (type == "animated_gif") {
             mediaUrl = media.video_info.variants[0].url;
           } else if (type == "video") {
@@ -239,6 +239,8 @@ class TwitterBot {
               data,
             });
           } else {
+            console.log();
+            console.log("error while updating");
             reject(error);
           }
         });
